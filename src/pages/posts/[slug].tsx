@@ -2,8 +2,8 @@ import { GetServerSideProps } from 'next'
 import { getSession } from 'next-auth/client'
 import Head from 'next/head'
 import { RichText } from 'prismic-dom'
-import styles from './post.module.scss'
 import { getPrismicClient } from '../../services/prismic'
+import styles from './post.module.scss'
 
 interface PostProps {
   post: {
@@ -14,13 +14,12 @@ interface PostProps {
   }
 }
 
-const Post = ({ post }: PostProps) => {
+export default function Post({ post }: PostProps) {
   return (
     <>
       <Head>
         <title>{post.title} | Ignews</title>
       </Head>
-
       <main className={styles.container}>
         <article className={styles.post}>
           <h1>{post.title}</h1>
@@ -35,14 +34,21 @@ const Post = ({ post }: PostProps) => {
   )
 }
 
-export default Post
-
 export const getServerSideProps: GetServerSideProps = async ({
   req,
   params,
 }) => {
-  const session = getSession({ req })
+  const session = await getSession({ req })
   const { slug } = params
+
+  if (!session.activeSubscription) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
 
   const prismic = getPrismicClient(req)
 
