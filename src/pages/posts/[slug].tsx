@@ -5,7 +5,7 @@ import { RichText } from 'prismic-dom'
 import { getPrismicClient } from '../../services/prismic'
 import styles from './post.module.scss'
 
-interface PostProps {
+interface PostPreviewProps {
   post: {
     slug: string
     title: string
@@ -14,7 +14,7 @@ interface PostProps {
   }
 }
 
-export default function Post({ post }: PostProps) {
+export default function Post({ post }: PostPreviewProps) {
   return (
     <>
       <Head>
