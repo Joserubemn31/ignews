@@ -1,4 +1,4 @@
-import { GetStaticProps } from 'next'
+import { GetStaticPaths, GetStaticProps } from 'next'
 import { useSession } from 'next-auth/client'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -22,6 +22,7 @@ export default function Preview({ post }: PostPreviewProps) {
   const router = useRouter()
 
   useEffect(() => {
+    //@ts-ignore
     if (session?.activeSubscription) {
       router.push(`/posts/${post.slug}`)
     }
@@ -53,9 +54,15 @@ export default function Preview({ post }: PostPreviewProps) {
   )
 }
 
-export const getStaticPaths = () => {
+export const getStaticPaths: GetStaticPaths = async () => {
   return {
-    paths: [],
+    paths: [
+      {
+        params: {
+          slug: 'testando-envio-de-e-mails-no-node-utilizando-mailhog',
+        },
+      },
+    ],
     fallback: 'blocking',
   }
 }
