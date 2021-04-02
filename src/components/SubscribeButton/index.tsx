@@ -18,7 +18,6 @@ export const SubscribeButton = ({ priceId }: SubscribeButtonProps) => {
       return
     }
 
-    //@ts-ignore
     if (session.activeSubscription) {
       router.push('/posts')
       return
